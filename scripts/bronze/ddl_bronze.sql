@@ -81,15 +81,7 @@ CREATE TABLE bronze.erp_px_cat_g1v2 (
 	maintenance NVARCHAR(50)
 )
 
-TRUNCATE TABLE bronze.crm_cust_info; -- removes all rows, ensure its empty before bulk insert
--- refreshing bronze layer table
-BULK INSERT bronze.crm_cust_info -- needs to be exact!
-FROM 'C:\sql\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
-WITH (
-	FIRSTROW = 2, --skip first row which is header/title of columns
-	FIELDTERMINATOR = ',', -- tells sql how values are separated in data
-	TABLOCK
-);
+
 /*
 SELECT * FROM bronze.crm_cust_info
 -- check data has not shifted and is in correct columns
