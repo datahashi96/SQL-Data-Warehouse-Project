@@ -26,7 +26,7 @@ CREATE TABLE bronze.crm_cust_info (
 	cst_key NVARCHAR(50),
 	cst_firstname NVARCHAR(50),
 	cst_lastname NVARCHAR(50),
-	cst_material_status NVARCHAR(50),
+	cst_marital_status NVARCHAR(50),
 	cst_gndr NVARCHAR(50),
 	cst_create_date DATE
 );
@@ -81,7 +81,15 @@ CREATE TABLE bronze.erp_px_cat_g1v2 (
 	maintenance NVARCHAR(50)
 )
 
-
+TRUNCATE TABLE bronze.crm_cust_info; -- removes all rows, ensure its empty before bulk insert
+-- refreshing bronze layer table
+BULK INSERT bronze.crm_cust_info -- needs to be exact!
+FROM 'C:\sql\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
+WITH (
+	FIRSTROW = 2, --skip first row which is header/title of columns
+	FIELDTERMINATOR = ',', -- tells sql how values are separated in data
+	TABLOCK
+);
 /*
 SELECT * FROM bronze.crm_cust_info
 -- check data has not shifted and is in correct columns
@@ -89,4 +97,5 @@ SELECT * FROM bronze.crm_cust_info
 SELECT COUNT(*) FROM bronze.crm_cust_info
 -- compare no. of columns to actual csv file. should be 1 less
 */
+
 
