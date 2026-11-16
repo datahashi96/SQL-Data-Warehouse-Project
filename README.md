@@ -99,7 +99,7 @@ erDiagram
         string product_line
         date start_date
     }
-
+```
 
 ```mermaid
 flowchart LR
