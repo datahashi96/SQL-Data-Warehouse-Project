@@ -99,6 +99,57 @@ erDiagram
         string product_line
         date start_date
     }
+
+
+```mermaid
+flowchart LR
+    subgraph Sources
+        CRM[CRM CSVs]
+        ERP[ERP CSVs]
+    end
+
+    subgraph Bronze[Bronze Layer]
+        B_Cust[crm_cust_info]
+        B_Prod[crm_prd_info]
+        B_Sales[crm_sales_details]
+        B_ErpCust[erp_cust_az12]
+        B_ErpLoc[erp_loc_a101]
+        B_ErpCat[erp_px_cat_g1v2]
+    end
+
+    subgraph Silver[Silver Layer]
+        S_Cust[crm_cust_info]
+        S_Prod[crm_prd_info]
+        S_Sales[crm_sales_details]
+        S_ErpCust[erp_cust_az12]
+        S_ErpLoc[erp_loc_a101]
+        S_ErpCat[erp_px_cat_g1v2]
+    end
+
+    subgraph Gold[Gold Layer]
+        G_DimCust[dim_customers]
+        G_DimProd[dim_products]
+        G_Fact[fact_sales]
+    end
+
+    CRM --> B_Cust & B_Prod & B_Sales
+    ERP --> B_ErpCust & B_ErpLoc & B_ErpCat
+
+    B_Cust --> S_Cust
+    B_Prod --> S_Prod
+    B_Sales --> S_Sales
+    B_ErpCust --> S_ErpCust
+    B_ErpLoc --> S_ErpLoc
+    B_ErpCat --> S_ErpCat
+
+    S_Cust --> G_DimCust
+    S_ErpCust --> G_DimCust
+    S_ErpLoc --> G_DimCust
+
+    S_Prod --> G_DimProd
+    S_ErpCat --> G_DimProd
+
+    S_Sales --> G_Fact
 ```
 
 🚀 How to Run
